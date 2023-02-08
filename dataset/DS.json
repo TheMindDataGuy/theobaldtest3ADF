@@ -1,12 +1,32 @@
 {
-	"name": "DB",
+	"name": "DS",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DB3",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"Schema": {
+				"type": "string",
+				"defaultValue": "Schema"
+			},
+			"Table": {
+				"type": "string",
+				"defaultValue": "Table"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Table",
+				"type": "Expression"
+			}
+		}
 	}
 }
