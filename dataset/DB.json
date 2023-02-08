@@ -1,0 +1,12 @@
+{
+	"name": "DB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
