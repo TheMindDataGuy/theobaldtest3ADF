@@ -25,7 +25,56 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DB')]",
+			"name": "[concat(parameters('factoryName'), '/Blob_parquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Blob3",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Container": {
+						"type": "string",
+						"defaultValue": "Container"
+					},
+					"Directory": {
+						"type": "string",
+						"defaultValue": "Directory"
+					},
+					"File": {
+						"type": "string",
+						"defaultValue": "File"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().File",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().Directory",
+							"type": "Expression"
+						},
+						"fileSystem": {
+							"value": "@dataset().Container",
+							"type": "Expression"
+						}
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Blob3')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -33,10 +82,29 @@
 					"referenceName": "DB3",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"Schema": {
+						"type": "string",
+						"defaultValue": "Schema"
+					},
+					"Table": {
+						"type": "string",
+						"defaultValue": "Table"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
-				"typeProperties": {}
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().Schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().Table",
+						"type": "Expression"
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DB3')]"
